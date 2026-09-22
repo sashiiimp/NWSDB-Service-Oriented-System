@@ -1,0 +1,21 @@
+## .NET build output
+bin/
+obj/
+
+## Local SQLite dev database (generated at runtime, not source)
+*.db
+*.db-shm
+*.db-wal
+
+## User-specific / IDE files
+.vs/
+.vscode/
+*.user
+*.suo
+
+## Rider / VS temp
+*.userosscache
+*.sln.docstates
+
+## Logs
+*.log
