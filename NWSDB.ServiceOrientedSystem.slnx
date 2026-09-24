@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="NWSDB.Client/NWSDB.Client.csproj" />
+  <Project Path="NWSDB.Server.csproj" />
+</Solution>
