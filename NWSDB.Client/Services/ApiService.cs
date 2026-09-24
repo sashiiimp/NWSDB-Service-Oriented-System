@@ -24,7 +24,9 @@ public class ApiService : IDisposable
     {
         // One HttpClient for the lifetime of the application, as recommended,
         // rather than creating a new one per request.
-        _httpClient = new HttpClient
+        // SameHostRedirectHandler keeps the admin JWT on same-host redirects
+        // (e.g. the server's HTTP -> HTTPS redirection); see that class for details.
+        _httpClient = new HttpClient(new SameHostRedirectHandler())
         {
             BaseAddress = new Uri(baseUrl),
             Timeout = ApiSettings.RequestTimeout

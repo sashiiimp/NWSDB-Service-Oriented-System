@@ -201,7 +201,7 @@ namespace NWSDB.Client
             }
         }
 
-        // A 401 from an admin endpoint means the JWT has expired or is invalid.
+        // A 401 from an admin endpoint means the server did not accept the JWT.
         private bool HandleSessionExpired(ApiException ex)
         {
             if (ex.StatusCode != HttpStatusCode.Unauthorized)
@@ -209,14 +209,22 @@ namespace NWSDB.Client
                 return false;
             }
 
-            EndSession();
+            EndSession(ex.Message);
             return true;
         }
 
-        private void EndSession()
+        // Only reports "expired" when the token really has expired (UTC compared with
+        // UTC); any other 401 shows the server's reason so it isn't mistaken for expiry.
+        private void EndSession(string? serverMessage = null)
         {
-            MessageBox.Show(this, "Your admin session has expired. Please log in again.", "Session Expired",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var expired = DateTime.UtcNow >= _session.ExpiresAtUtc;
+            var message = expired
+                ? "Your admin session has expired. Please log in again."
+                : "The server did not accept your admin session. Please log in again." +
+                  (string.IsNullOrWhiteSpace(serverMessage) ? string.Empty : $"\n\nServer response: {serverMessage}");
+
+            MessageBox.Show(this, message, expired ? "Session Expired" : "Admin Session Rejected",
+                MessageBoxButtons.OK, expired ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
             LoggedOut = true;
             Close();
         }

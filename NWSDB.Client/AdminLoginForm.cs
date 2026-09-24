@@ -35,6 +35,7 @@ namespace NWSDB.Client
             try
             {
                 Session = await _apiService.AdminLoginAsync(new AdminLoginRequestDto { Username = username, Password = password });
+                Session.ExpiresAtUtc = AsUtc(Session.ExpiresAtUtc);
                 _apiService.SetAdminToken(Session.Token);
                 DialogResult = DialogResult.OK;
             }
@@ -54,6 +55,16 @@ namespace NWSDB.Client
                 SetBusy(false);
             }
         }
+
+        // The server sends expiresAtUtc with a "Z" suffix, which System.Text.Json reads
+        // as DateTimeKind.Utc. Normalise anyway so every expiry check compares
+        // UTC with DateTime.UtcNow, never with local time.
+        private static DateTime AsUtc(DateTime value) => value.Kind switch
+        {
+            DateTimeKind.Utc => value,
+            DateTimeKind.Local => value.ToUniversalTime(),
+            _ => DateTime.SpecifyKind(value, DateTimeKind.Utc)
+        };
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
