@@ -77,6 +77,41 @@ namespace NWSDB.Client
             txtAccountNumber.Focus();
         }
 
+        // Entry point for the NWSDB Admin actor; the customer flow above is unchanged.
+        private void lnkAdminLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            AdminLoginResponseDto? session;
+            using (var adminLogin = new AdminLoginForm(_apiService))
+            {
+                if (adminLogin.ShowDialog(this) != DialogResult.OK)
+                {
+                    return;
+                }
+                session = adminLogin.Session;
+            }
+
+            if (session is null)
+            {
+                return;
+            }
+
+            Hide();
+            using (var adminDashboard = new AdminDashboardForm(_apiService, session))
+            {
+                adminDashboard.ShowDialog();
+
+                if (!adminDashboard.LoggedOut)
+                {
+                    Close();
+                    return;
+                }
+            }
+
+            txtAccountNumber.Clear();
+            Show();
+            txtAccountNumber.Focus();
+        }
+
         private void SetBusy(bool busy)
         {
             btnLogin.Enabled = !busy;

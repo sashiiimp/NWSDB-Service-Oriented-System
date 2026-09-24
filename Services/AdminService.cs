@@ -128,7 +128,7 @@ public class AdminService : IAdminService
             throw new BusinessValidationException("ReadingDate is required.");
         }
 
-        if (readingDate > DateTime.UtcNow.Date)
+        if (readingDate > DateTime.Today)
         {
             throw new BusinessValidationException("ReadingDate cannot be in the future.");
         }

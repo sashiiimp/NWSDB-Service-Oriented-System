@@ -36,6 +36,7 @@
             btnLogin = new Button();
             lblHint = new Label();
             lblServer = new Label();
+            lnkAdminLogin = new LinkLabel();
             pnlHeader.SuspendLayout();
             SuspendLayout();
             // 
@@ -125,6 +126,16 @@
             lblServer.TabIndex = 5;
             lblServer.Text = "Service:";
             // 
+            // lnkAdminLogin
+            // 
+            lnkAdminLogin.AutoSize = true;
+            lnkAdminLogin.LinkColor = Color.FromArgb(11, 79, 138);
+            lnkAdminLogin.Location = new Point(50, 318);
+            lnkAdminLogin.Name = "lnkAdminLogin";
+            lnkAdminLogin.TabIndex = 6;
+            lnkAdminLogin.Text = "NWSDB staff? Sign in to the Admin Console";
+            lnkAdminLogin.LinkClicked += lnkAdminLogin_LinkClicked;
+            // 
             // LoginForm
             // 
             AcceptButton = btnLogin;
@@ -138,6 +149,7 @@
             Controls.Add(btnLogin);
             Controls.Add(lblHint);
             Controls.Add(lblServer);
+            Controls.Add(lnkAdminLogin);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "LoginForm";
@@ -159,5 +171,6 @@
         private Button btnLogin;
         private Label lblHint;
         private Label lblServer;
+        private LinkLabel lnkAdminLogin;
     }
 }

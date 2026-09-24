@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using NWSDB.Client.Models;
@@ -70,6 +71,31 @@ public class ApiService : IDisposable
 
     public Task<PaymentReceiptDto> GetReceiptAsync(int paymentId) =>
         GetAsync<PaymentReceiptDto>($"api/payments/{paymentId}/receipt");
+
+    // ---- Admin ----
+
+    public Task<AdminLoginResponseDto> AdminLoginAsync(AdminLoginRequestDto request) =>
+        PostAsync<AdminLoginRequestDto, AdminLoginResponseDto>("api/admin/login", request);
+
+    // The admin endpoints require "Authorization: Bearer <token>". The token is
+    // attached to every request until the admin logs out.
+    public void SetAdminToken(string token) =>
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+    public void ClearAdminToken() =>
+        _httpClient.DefaultRequestHeaders.Authorization = null;
+
+    public Task<List<AdminConnectionDto>> GetAdminConnectionsAsync() =>
+        GetAsync<List<AdminConnectionDto>>("api/admin/connections");
+
+    public Task<List<AdminCustomerDto>> GetAdminCustomersAsync() =>
+        GetAsync<List<AdminCustomerDto>>("api/admin/customers");
+
+    public Task<MeterReadingDto> RecordMeterReadingAsync(CreateMeterReadingRequestDto request) =>
+        PostAsync<CreateMeterReadingRequestDto, MeterReadingDto>("api/admin/meter-readings", request);
+
+    public Task<BillDto> GenerateBillAsync(GenerateBillRequestDto request) =>
+        PostAsync<GenerateBillRequestDto, BillDto>("api/admin/bills", request);
 
     // ---- HTTP helpers ----
 
