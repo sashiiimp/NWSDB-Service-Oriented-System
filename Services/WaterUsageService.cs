@@ -72,7 +72,7 @@ public class WaterUsageService : IWaterUsageService
         }
     }
 
-    private static MeterReadingDto ToDto(Models.MeterReading mr) => new()
+    internal static MeterReadingDto ToDto(Models.MeterReading mr) => new()
     {
         ReadingId = mr.ReadingId,
         ConnectionId = mr.ConnectionId,
