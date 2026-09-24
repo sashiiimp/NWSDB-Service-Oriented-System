@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Applied to every form by ApplicationConfiguration.Initialize(). -->
+    <ApplicationDefaultFont>Segoe UI, 9.75pt</ApplicationDefaultFont>
   </PropertyGroup>
 
 </Project>

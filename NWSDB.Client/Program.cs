@@ -1,3 +1,5 @@
+using NWSDB.Client.Services;
+
 namespace NWSDB.Client
 {
     internal static class Program
@@ -11,7 +13,10 @@ namespace NWSDB.Client
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new LoginForm());
+
+            // A single ApiService (and therefore a single HttpClient) is shared by every form.
+            using var apiService = new ApiService();
+            Application.Run(new LoginForm(apiService));
         }
     }
 }

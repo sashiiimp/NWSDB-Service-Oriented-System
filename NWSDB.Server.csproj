@@ -17,4 +17,14 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <!-- The server project lives at the repository root, so the SDK's default
+       globs would otherwise pull the separate WinForms client's source files
+       (and its bin/obj output) into the server build. -->
+  <ItemGroup>
+    <Compile Remove="NWSDB.Client/**" />
+    <Content Remove="NWSDB.Client/**" />
+    <EmbeddedResource Remove="NWSDB.Client/**" />
+    <None Remove="NWSDB.Client/**" />
+  </ItemGroup>
+
 </Project>
