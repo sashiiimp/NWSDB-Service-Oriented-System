@@ -111,7 +111,7 @@
             // 
             lblHint.AutoSize = true;
             lblHint.ForeColor = Color.FromArgb(90, 98, 110);
-            lblHint.Location = new Point(50, 275);
+            lblHint.Location = new Point(50, 302);
             lblHint.Name = "lblHint";
             lblHint.TabIndex = 4;
             lblHint.Text = "Enter the account number printed on your water bill.";
@@ -130,7 +130,7 @@
             // 
             lnkAdminLogin.AutoSize = true;
             lnkAdminLogin.LinkColor = Color.FromArgb(11, 79, 138);
-            lnkAdminLogin.Location = new Point(50, 318);
+            lnkAdminLogin.Location = new Point(50, 272);
             lnkAdminLogin.Name = "lnkAdminLogin";
             lnkAdminLogin.TabIndex = 6;
             lnkAdminLogin.Text = "NWSDB staff? Sign in to the Admin Console";

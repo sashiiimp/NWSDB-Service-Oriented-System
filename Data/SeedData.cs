@@ -12,15 +12,16 @@ public static class SeedData
     {
         if (await context.Customers.AnyAsync())
         {
+            await RenameDemoCustomerAsync(context);
             return;
         }
 
         var customer1 = new Customer
         {
             AccountNumber = "NW-100001",
-            FullName = "Kasun Perera",
-            Email = "kasun.perera@example.com",
-            Phone = "0771234501",
+            FullName = "Sashini Madushi",
+            Email = "sashiii.mp@gmail.com",
+            Phone = "0777818022",
             Address = "12 Lake Road, Colombo 05"
         };
         var customer2 = new Customer
@@ -169,6 +170,36 @@ public static class SeedData
             PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123")
         });
 
+        await context.SaveChangesAsync();
+    }
+
+    // Databases seeded before the demo customer was renamed still hold the old
+    // name/email/phone. Update only those fields on that one row (matched on account
+    // number and old values), leaving all other data untouched; a no-op once applied.
+    private static async Task RenameDemoCustomerAsync(NwsdbDbContext context)
+    {
+        var customer = await context.Customers.SingleOrDefaultAsync(c =>
+            c.AccountNumber == "NW-100001" &&
+            (c.FullName == "Kasun Perera" ||
+             c.Email == "kasun.perera@example.com" || c.Email == "sashini.madushi@example.com" ||
+             c.Phone == "0771234501"));
+        if (customer is null)
+        {
+            return;
+        }
+
+        if (customer.FullName == "Kasun Perera")
+        {
+            customer.FullName = "Sashini Madushi";
+        }
+        if (customer.Email is "kasun.perera@example.com" or "sashini.madushi@example.com")
+        {
+            customer.Email = "sashiii.mp@gmail.com";
+        }
+        if (customer.Phone == "0771234501")
+        {
+            customer.Phone = "0777818022";
+        }
         await context.SaveChangesAsync();
     }
 

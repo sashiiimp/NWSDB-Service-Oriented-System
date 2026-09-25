@@ -93,7 +93,7 @@ has no customer passwords.
 
 | Account number | Name | Water connections |
 |---|---|---|
-| `NW-100001` | Kasun Perera | CONN-1001 |
+| `NW-100001` | Sashini Madushi | CONN-1001 |
 | `NW-100002` | Nadeesha Silva | CONN-1002 (bill partially paid) |
 | `NW-100003` | Ruwan Fernando | CONN-1003 (bill overdue), CONN-1004 |
 
