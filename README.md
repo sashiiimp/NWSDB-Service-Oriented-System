@@ -91,11 +91,11 @@ These are created automatically the first time the server runs.
 **Customers.** The client logs customers in by account number only, because the prototype
 has no customer passwords.
 
-| Account number | Name | Water connections |
-|---|---|---|
-| `NW-100001` | Sashini Madushi | CONN-1001 |
-| `NW-100002` | Nadeesha Silva | CONN-1002 (bill partially paid) |
-| `NW-100003` | Ruwan Fernando | CONN-1003 (bill overdue), CONN-1004 |
+| Account number | Name | Email | Phone | Address | Water connections |
+|---|---|---|---|---|---|
+| `NW-100001` | Sashini Madushi | sashiii.mp@gmail.com | 0777818022 | 212/A/1, Welivita, Kaduwela | CONN-1001 |
+| `NW-100002` | Nadeesha Silva | nadeesha.silva@example.com | 0771234502 | 45 Galle Road, Mount Lavinia | CONN-1002 (bill partially paid) |
+| `NW-100003` | Ruwan Fernando | ruwan.fernando@example.com | 0771234503 | 8 Kandy Road, Kadawata | CONN-1003 (bill overdue), CONN-1004 |
 
 **NWSDB admin**
 
