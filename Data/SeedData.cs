@@ -22,7 +22,7 @@ public static class SeedData
             FullName = "Sashini Madushi",
             Email = "sashiii.mp@gmail.com",
             Phone = "0777818022",
-            Address = "12 Lake Road, Colombo 05"
+            Address = "212/A/1, Welivita, Kaduwela"
         };
         var customer2 = new Customer
         {
@@ -47,7 +47,7 @@ public static class SeedData
         {
             CustomerId = customer1.CustomerId,
             ConnectionNumber = "CONN-1001",
-            ConnectionAddress = "12 Lake Road, Colombo 05",
+            ConnectionAddress = "212/A/1, Welivita, Kaduwela",
             Status = ConnectionStatus.Active
         };
         var conn1002 = new WaterConnection
@@ -174,32 +174,43 @@ public static class SeedData
     }
 
     // Databases seeded before the demo customer was renamed still hold the old
-    // name/email/phone. Update only those fields on that one row (matched on account
-    // number and old values), leaving all other data untouched; a no-op once applied.
+    // name/email/phone/address, and its CONN-1001 connection the old address.
+    // Update only those fields on those rows (matched on account/connection number
+    // and old values), leaving all other data untouched; a no-op once applied.
     private static async Task RenameDemoCustomerAsync(NwsdbDbContext context)
     {
         var customer = await context.Customers.SingleOrDefaultAsync(c =>
             c.AccountNumber == "NW-100001" &&
             (c.FullName == "Kasun Perera" ||
              c.Email == "kasun.perera@example.com" || c.Email == "sashini.madushi@example.com" ||
-             c.Phone == "0771234501"));
-        if (customer is null)
+             c.Phone == "0771234501" || c.Address == "12 Lake Road, Colombo 05"));
+        if (customer is not null)
         {
-            return;
+            if (customer.FullName == "Kasun Perera")
+            {
+                customer.FullName = "Sashini Madushi";
+            }
+            if (customer.Email is "kasun.perera@example.com" or "sashini.madushi@example.com")
+            {
+                customer.Email = "sashiii.mp@gmail.com";
+            }
+            if (customer.Phone == "0771234501")
+            {
+                customer.Phone = "0777818022";
+            }
+            if (customer.Address == "12 Lake Road, Colombo 05")
+            {
+                customer.Address = "212/A/1, Welivita, Kaduwela";
+            }
         }
 
-        if (customer.FullName == "Kasun Perera")
+        var connection = await context.WaterConnections.SingleOrDefaultAsync(w =>
+            w.ConnectionNumber == "CONN-1001" && w.ConnectionAddress == "12 Lake Road, Colombo 05");
+        if (connection is not null)
         {
-            customer.FullName = "Sashini Madushi";
+            connection.ConnectionAddress = "212/A/1, Welivita, Kaduwela";
         }
-        if (customer.Email is "kasun.perera@example.com" or "sashini.madushi@example.com")
-        {
-            customer.Email = "sashiii.mp@gmail.com";
-        }
-        if (customer.Phone == "0771234501")
-        {
-            customer.Phone = "0777818022";
-        }
+
         await context.SaveChangesAsync();
     }
 
